@@ -1,27 +1,62 @@
-import { Arma } from "./Arma";
+import prompt from 'prompt-sync';
 import { Personagem } from "./Personagem";
 
-const arma: Arma = new Arma();
-arma.nome = 'Cajado';
-arma.tipo = 'Mágica';
-arma.dano = 99;
-arma.nivel = 1;
+const teclado = prompt();
 
-const personagem: Personagem = new Personagem();
-personagem.identificacao.nome = 'Merlin';
-personagem.status.armadura = 20;
-personagem.status.ataque = 80;
-personagem.identificacao.classe = 'Mago';
-personagem.status.defesa = 5;
-personagem.status.intelecto = 80;
-personagem.status.mana = 100;
-personagem.status.nivel = 1;
-personagem.status.poderDeAtaque = 70;
-personagem.status.stamina = 0;
-personagem.status.vida = 10;
-personagem.identificacao.raca = 'undead';
+//TODO: https://abre.ai/gYcK
 
-personagem.arma = arma;
+let protagonista: Personagem;
+let continua = true;
 
-console.log(personagem);
+console.log("Antes de qualquer coisa precisamos criar o seu personagem.");
+teclado("Tecle <ENTER> para continuar")
+
+const nome = teclado("Digite o nome do seu personagem: ")
+const raca = teclado("Digite a raça do seu personagem: ")
+const classe = teclado("Digite a classe do seu personagem: ")
+const armaTipo = teclado("Escolha sua arma: ")
+
+const armaNome = teclado("Digite o nome da sua arma: ")
+
+protagonista = new Personagem(nome, raca, classe, armaTipo, armaNome);
+
+do {
+
+  console.log("=========== MENU =============");
+  console.log("| 1. Verificar status       |");
+  console.log("| 2. Treinar ataque         |");
+  console.log("| 3. Treinar defesa         |");
+  console.log("| 4. Entrar em batalha      |");
+  console.log("==============================");
+
+  const escolha: number = +teclado("Escolha uma opção: ")
+
+
+
+  switch (escolha) {
+    case 1:
+      console.table(protagonista)
+      break;
+
+    case 2:
+      continua = protagonista.treinarAtaque()
+      if (!continua) {
+        console.log('Personagem morreu por falta de stamina: ' + protagonista.status.stamina);
+
+      }
+      break;
+
+    case 3:
+      const tempo: number = +teclado("Qual a duração do treino em horas? ")
+      continua = protagonista.treinarDefesa(tempo);
+      if (!continua) {
+        console.log("Game over! Treino em excesso!");
+
+      }
+
+    default:
+      break;
+  }
+}
+while (continua);
 

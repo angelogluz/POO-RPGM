@@ -8,4 +8,5 @@ export class Status {
   poderDeAtaque: number = 1;
   intelecto: number = 1;
   armadura: number = 1;
+  //TODO: Adicionar stamina, vida, mana MÁXIMO do personagem
 }
